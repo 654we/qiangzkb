@@ -125,8 +125,8 @@ class CourseMonitor:
             'Accept-Language': 'zh-CN,zh;q=0.9',
             'Cache-Control': 'no-cache',
             'Connection': 'keep-alive',
-            'Origin': 'https://zs.hdxy.edu.cn',
-            'Referer': 'https://zs.hdxy.edu.cn/jwydd/',
+            'Origin': '教务系统的地址',
+            'Referer': '教务系统地址/jwydd/',
             'Sec-Fetch-Dest': 'empty',
             'Sec-Fetch-Mode': 'cors',
             'Sec-Fetch-Site': 'same-origin',
@@ -141,7 +141,7 @@ class CourseMonitor:
     def get_token(self):
         for _ in range(3):
             try:
-                url = f"https://zs.hdxy.edu.cn/njwhd/login"
+                url = f"教务系统地址/njwhd/login"
                 params = {
                     'userNo': self.config['USER']['user_no'],
                     'pwd': self.config['USER']['pwd']
@@ -187,7 +187,7 @@ class CourseMonitor:
                 
             self.session.headers.update({'token': token})
             
-            url = "https://zs.hdxy.edu.cn/njwhd/student/curriculum"
+            url = "教务系统地址/njwhd/student/curriculum"
             params = {
                 'xnxq01id': self.config['COURSE']['xnxq01id'],
                 'kbjcmsid': self.config['COURSE']['kbjcmsid'],
