@@ -71,8 +71,8 @@ class CourseMonitor:
             'Accept-Language': 'zh-CN,zh;q=0.9',
             'Cache-Control': 'no-cache',
             'Connection': 'keep-alive',
-            'Origin': 'https://zs.hdxy.edu.cn',
-            'Referer': 'https://zs.hdxy.edu.cn/jwydd/',
+            'Origin': 'https://教务系统地址',
+            'Referer': 'https://教务系统地址/jwydd/',
             'Sec-Fetch-Dest': 'empty',
             'Sec-Fetch-Mode': 'cors',
             'Sec-Fetch-Site': 'same-origin',
@@ -87,7 +87,7 @@ class CourseMonitor:
     def get_token(self):
         for _ in range(3):
             try:
-                url = f"https://zs.hdxy.edu.cn/njwhd/login"
+                url = f"https://教务系统地址/njwhd/login"
                 params = {
                     'userNo': self.config['USER']['user_no'],
                     'pwd': self.config['USER']['pwd'].replace('%%', '%')
@@ -133,7 +133,7 @@ class CourseMonitor:
                 
             self.session.headers.update({'token': token})
             
-            url = "https://zs.hdxy.edu.cn/njwhd/student/curriculum"
+            url = "https://教务系统地址/njwhd/student/curriculum"
             params = {
                 'xnxq01id': self.config['COURSE']['xnxq01id'],
                 'kbjcmsid': self.config['COURSE']['kbjcmsid'],
@@ -164,21 +164,21 @@ class CourseMonitor:
         try:
             data_list = raw_data.get('data', [])
             for week_data in data_list:
-                # Create a date map for the current week's data
+                
                 date_map = {}
                 for date_info in week_data.get('date', []):
                     xqmc = date_info.get('xqmc', '')
                     mxrq = date_info.get('mxrq', '')
-                    date_map[xqmc] = mxrq  # map week day code to date
+                    date_map[xqmc] = mxrq  
 
                 # Parse each course item
                 for item in week_data.get('item', []):
                     class_time = item.get('classTime', '')
-                    week_day_code = class_time[:1]  # Take the first character as the week day code
+                    week_day_code = class_time[:1]  
                     xqmc = self.convert_week_day_code(week_day_code)
-                    date_str = date_map.get(xqmc, '')  # Use the corresponding mxrq as the specific date
+                    date_str = date_map.get(xqmc, '')  
                     day_of_week = self.translate_day(week_day_code)
-                    class_time_section = class_time[1:3]  # Take the first two characters of the section part
+                    class_time_section = class_time[1:3]  
                     time_group, time_description = self.translate_class_time(class_time_section)
                     time_period = f"{item.get('startTime', '')}-{item.get('endTIme', '')}"
 
